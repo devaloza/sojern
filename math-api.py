@@ -70,23 +70,6 @@ def getAvg():
 		data2.append(int(j))
 	return jsonify(status="success", average=sum(data2)/len(data2)), 200
 
-@app.route("/percentile", methods=["POST"])
-def getPercentile():
-	data = request.get_json()
-	if not "value" in data.keys():
-	    return jsonify(status="error", message="Please provide value key which contains list of numbers"), 400
-	values = data["value"].split(",")
-
-	if not "quantifier" in data.keys():
-		return jsonify(status="error", message="Please provide quantifier key which contains a numbers"), 400
-	quantifier = int(data['quantifier'])
-
-	if quantifier > 100 or quantifier < 0:
-		return jsonify(status="error", message="percentile quantifier must be an integer value between 0 and 100 inclusive, no decimal values"), 400
-
-	percentile = sorted(values)[int(math.ceil((len(values) * quantifier) / 100)) - 1]
-	return jsonify(status="success", percentile=percentile), 200
-
 @app.route("/median", methods=["POST"])
 def getMedian():
 	data = request.get_json()
